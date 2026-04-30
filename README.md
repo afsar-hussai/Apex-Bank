@@ -35,7 +35,7 @@ Apex Bank is designed to handle the complexities of modern digital finance, feat
 
 ## 🏗 System Design & Architecture
 
-![HDL Diagram](/Images/image.png)
+![HDL Diagram](/Images/Architecture%202.png)
 
 The system is architected to ensure strict idempotency to prevent double-spending and ensure consistency across distributed components.
 
