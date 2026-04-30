@@ -35,13 +35,69 @@ Apex Bank is designed to handle the complexities of modern digital finance, feat
 
 ## 🏗 System Design & Architecture
 
-![HDL Diagram](/Images/Architecture.png)
+![HLD Diagram](/Images/Architecture.png)
 
-The system is architected to ensure strict idempotency to prevent double-spending and ensure consistency across distributed components.
+Apex Bank follows a layered architecture with clear separation of concerns:
 
-## 📊 Data Flow
+**Presentation Layer**
+- Customer Web App (Next.js) — account management, transfers, statements
+- Admin Dashboard (Next.js) — user management, transaction oversight, fraud alerts
 
-![Data Flow](/Images/Data_Flow.png)
+**Business Logic Layer**
+- API Gateway — single entry point, handles rate limiting, auth routing, and load balancing
+- Auth Service — JWT-based authentication, 2FA, RBAC enforcement
+- Account Service — account lifecycle, balance management, ledger operations
+- Payment Service — idempotent fund transfers, NEFT/RTGS/IMPS simulation
+- Notification Service — async email and in-app alerts via event queue
+
+**Data Layer**
+- PostgreSQL — primary store for all financial data (ACID compliant)
+- Redis — session store, balance caching, rate-limit counters
+
+> The system is designed so that no request reaches a service without passing
+> through the API Gateway. Auth is enforced at the gateway level on every call.
+
+## 📊 Data Flow — Fund Transfer Request
+
+![Data Flow Diagram](/Images/Data_Flow.png)
+
+The following describes the complete lifecycle of a fund transfer request:
+
+1. **Customer Web App** initiates a transfer request with JWT token
+2. **API Gateway** receives the request, applies rate limiting
+3. **Auth Service** validates the JWT token and user permissions
+4. **Account Service** checks sender balance (Redis cache → PostgreSQL fallback)
+5. **PostgreSQL** debits the sender account atomically
+6. **PostgreSQL** credits the receiver account in the same transaction
+7. **Payment Service** records the transaction with idempotency key
+8. **Notification Service** dispatches transfer confirmation asynchronously
+9. **Customer Web App** receives success response with transaction ID
+
+> All steps 5 and 6 occur within a single PostgreSQL transaction —
+> if any step fails, the entire operation is rolled back (ACID guarantee).
+
+## 📁 Project Structure
+
+```
+apex-bank/
+├── cmd/
+│   └── server/          # Application entrypoint
+├── internal/
+│   ├── auth/            # Authentication & authorization
+│   ├── account/         # Account management & ledger
+│   ├── payment/         # Fund transfers & idempotency
+│   └── notification/    # Async alerts & emails
+├── pkg/
+│   ├── errors/          # Custom error types
+│   ├── logger/          # Structured logging (zap)
+│   └── validator/       # Request validation
+├── migrations/          # PostgreSQL schema migrations
+├── docker-compose.yml
+├── Makefile
+└── README.md
+```
+
+
 
 ## 📈 Roadmap
 
@@ -53,6 +109,36 @@ The system is architected to ensure strict idempotency to prevent double-spendin
 - [ ] Monitoring & Tracing Integration
 
 ---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+- Go 1.22+
+- Docker & Docker Compose
+- PostgreSQL 15+
+- Redis 7+
+
+### Local Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/afsar-hussai/Apex-Bank.git
+cd Apex-Bank
+
+# Start infrastructure
+docker-compose up -d
+
+# Run database migrations
+make migrate-up
+
+# Start the server
+make run
+```
+
+> Full setup guide and environment variables documented in `docs/setup.md`
+> (coming soon as development progresses)
+
+
 *Note: This is a work-in-progress project inspired by industry leaders in the FinTech space.*
 README.md
 Displaying README.md.
