@@ -39,6 +39,10 @@ Apex Bank is designed to handle the complexities of modern digital finance, feat
 
 The system is architected to ensure strict idempotency to prevent double-spending and ensure consistency across distributed components.
 
+## 📊 Data Flow
+
+![Data Flow](/Images/Data_Flow.png)
+
 ## 📈 Roadmap
 
 - [ ] Core Banking Engine & Ledger
