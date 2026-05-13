@@ -340,5 +340,3 @@ users (1) ──────────────────── (many) au
 
 
 *Note: This is a work-in-progress project inspired by industry leaders in the FinTech space.*
-README.md
-Displaying README.md.
