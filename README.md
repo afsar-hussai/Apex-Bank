@@ -169,7 +169,7 @@ and built a visual ERD on dbdiagram.io.
  
 > Short video walkthrough — how data flows through the schema during a fund transfer.
  
-[![DB Schema Walkthrough](./Images/DB_Schema_Thumbnail.png)](./Videos/DB_Schema_Walkthrough.mp4)
+[![DB Schema Walkthrough](./Images/DB_Schema.png)](./Videos/DB_Schema_Walkthrough.mp4)
  
 > **Flow:** `users` → `accounts` → `transactions` → `ledger_entries` (2 entries: DR + CR) → `audit_logs`
  
