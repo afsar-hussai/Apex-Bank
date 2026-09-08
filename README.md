@@ -330,13 +330,77 @@ users (1) ──────────────────── (many) au
 | updated_at on accounts | Tracks when the balance was last modified |
  
 ---
- 
-## ✅ Status
-- [x] ERD diagram created on dbdiagram.io
-- [x] All 5 tables designed with fields and constraints
-- [x] Foreign key relationships defined
-- [x] Data types chosen and justified
-- [ ] Next: Write SQL migration files using golang-migrate
 
+## Phase 1.1 --- Database Setup, Migrations & Type-Safe Code Generation 🛠️
 
-*Note: This is a work-in-progress project inspired by industry leaders in the FinTech space.*
+As part of the design-first and production-grade approach for Apex Bank, the database layer and data-access code have been fully structured and automated:
+
+- 🗄️ **Database Migrations (`golang-migrate`)**: Version-controlled sequential migration files (`.up.sql` and `.down.sql`) handle safe schema provisioning, rollback paths, and foreign key constraints enforcement with `CASCADE` drops.
+
+- ⚡ **Type-Safe SQL Queries (`sqlc`)**: Raw, optimized PostgreSQL queries are mapped directly into strongly-typed Go code using **sqlc (v2)**, eliminating boilerplate code while maintaining strict compile-time safety and zero-ORM performance.
+
+- ⚙️ **Task Automation (`Makefile`)**: Simplified local developer workflows using custom targets for Docker management, migrations, code generation, and testing.
+
+---
+
+## 🏗️ Project Structure & Architecture
+
+The project follows a clean, modular structure aligned with **Clean Architecture** principles:
+
+Apex-Bank/
+
+├── db/
+
+│   ├── migrations/         # Database migration files (.up.sql & .down.sql)[cite: 1]
+
+│   ├── query/              # Raw SQL query files for sqlc (users, accounts, etc.)[cite: 1]
+
+│   └── sqlc/               # Auto-generated type-safe Go models & queriers[cite: 1]
+
+├── docs/                   # Architecture diagrams and documentation[cite: 1]
+
+├── Makefile                # Shortcut commands for build, migrate, and sqlc[cite: 1]
+
+├── sqlc.yaml               # Configuration for sqlc code generation[cite: 1]
+
+└── README.md
+
+---
+
+## 🚀 Getting Started & Local Commands
+
+To spin up the local environment and generate code using the automated workflow, use the following `make` commands:
+
+- Generate Type-Safe Code:
+
+  `make sqlc`
+
+- Run Database Migrations (Up):
+
+  `make migrate-up`
+
+- Rollback Database Migrations (Down):
+
+  `make migrate-down`
+
+---
+
+## ✅ Current Status
+
+- [x] ERD diagram created on dbdiagram.io[cite: 1]
+
+- [x] All 5 tables designed with fields and constraints[cite: 1]
+
+- [x] Foreign key relationships defined[cite: 1]
+
+- [x] Data types chosen and justified[cite: 1]
+
+- [x] SQL migration files written using `golang-migrate` (`.up.sql` & `.down.sql`)[cite: 1]
+
+- [x] `sqlc.yaml` configured with `pgx/v5` and JSON tag generation[cite: 1]
+
+- [x] CRUD SQL query files structured for all core entities (Users, Accounts, Transactions, Ledger Entries, Audit Logs)[cite: 1]
+
+- [ ] **Next:** Setup Clean Architecture folders (`cmd/`, `internal/`) and implement HTTP server routing with Go.[cite: 1]
+
+*Note: This is a work-in-progress project inspired by industry leaders in the FinTech space.*[cite: 1]

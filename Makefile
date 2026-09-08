@@ -8,6 +8,8 @@ migratedown:
 	migrate -path db/migrations -database "postgresql://root:secret@localhost:5432/apex_bank?sslmode=disable" -verbose down
 createdb:
 	docker exec -it postgres18 createdb --username=root --owner=root apex_bank
+sqlc:
+	sqlc generate
 dropdb:
 	docker exec -it postgres18 dropdb apex_bank
 .PHONY: createdb dropdb postgres postgres-terminal migrateup migratedown
