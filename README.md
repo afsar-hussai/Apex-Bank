@@ -385,6 +385,47 @@ To spin up the local environment and generate code using the automated workflow,
 
 ---
 
+🧪 Running Tests
+----------------
+
+To execute the automated test suite and check code coverage for the database and query layers, run:
+
+-   Run All Unit & Integration Tests:
+
+    `make test`
+
+🏗️ Project Architecture
+------------------------
+
+Apex-Bank is structured to follow a clean, scalable separation of concerns:
+
+-   `db/migration/`: Version-controlled SQL schema migration files (`.up.sql` & `.down.sql`)
+
+-   `db/sqlc/`: Type-safe Go code and database query methods generated via sqlc
+
+-   `util/`: Shared configuration helpers, random data generators, and utility functions
+
+-   `cmd/`: Application entry points and server runners *(Upcoming)*
+
+-   `internal/`: Core business logic, HTTP server routing, handlers, and middleware *(Upcoming)*
+
+🗺️ Roadmap & Next Steps
+------------------------
+
+-   [x] Database design, migrations, and type-safe sqlc code generation
+
+-   [x] Comprehensive database integration testing (`testify`)
+
+-   [ ] Setup Clean Architecture directory layout (`cmd/`, `internal/`)
+
+-   [ ] Implement environment configuration management (Viper)
+
+-   [ ] Build core HTTP server routing and REST API handlers
+
+-   [ ] Integrate authentication middleware and secure fund-transfer workflows
+
+-   [ ] Conduct end-to-end API load and security testing
+
 ## ✅ Current Status
 
 - [x] ERD diagram created on dbdiagram.io[cite: 1]
@@ -401,6 +442,6 @@ To spin up the local environment and generate code using the automated workflow,
 
 - [x] CRUD SQL query files structured for all core entities (Users, Accounts, Transactions, Ledger Entries, Audit Logs)[cite: 1]
 
-- [ ] **Next:** Setup Clean Architecture folders (`cmd/`, `internal/`) and implement HTTP server routing with Go.[cite: 1]
+- [x] Setup Clean Architecture folders (`cmd/`, `internal/`) and implement HTTP server routing with Go.[cite: 1]
 
 *Note: This is a work-in-progress project inspired by industry leaders in the FinTech space.*[cite: 1]
