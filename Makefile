@@ -12,4 +12,6 @@ sqlc:
 	sqlc generate
 dropdb:
 	docker exec -it postgres18 dropdb apex_bank
+test:
+	go test -v -cover ./...
 .PHONY: createdb dropdb postgres postgres-terminal migrateup migratedown
